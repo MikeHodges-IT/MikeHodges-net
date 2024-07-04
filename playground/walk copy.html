@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walking Creature</title>
+    <style>
+    #dudeCanvas{
+        border: 5px solid black ;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        height: 600px;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="container">
+        <div class="content">
+            <canvas id="dudeCanvas">
+
+            </canvas>
+        
+        </div>
+    </div>
+    <script>
+        const dudeCanvas = document.getElementById("dudeCanvas");
+        const ctx = dudeCanvas.getContext("2d");
+        console.log(ctx);
+
+        const CANVAS_WIDTH = dudeCanvas.width = 600;
+        const CANVAS_HEIGHT = dudeCanvas.height = 600;
+    
+        const dudeImage = new Image();
+        dudeImage.src = '../images/DudeSprite.png';
+
+        const dudeWidth = 64;
+        const dudeHeight = 64;
+      
+        let frameX = 0;
+        let frameY = 0;
+        
+        
+        let gameFrame = 0;
+        let staggerFrame = 5;
+        
+        function testDude(){
+           ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+           //ctx.fillRect(10, 10, 100, 100);
+           
+           
+           ctx.drawImage(dudeImage, 
+                            //get image from sprite sheet
+                            frameX * dudeWidth, frameY * dudeHeight,dudeWidth, dudeHeight, 
+                            //draw image on canvas
+                            0, 0, dudeWidth, dudeHeight);
+            if(gameFrame % staggerFrame === 0)
+            if(frameX < 6) frameX++; 
+            else {
+                if(frameY < 4) frameY++;
+                else frameY = 0;    
+                frameX = 0;
+            }                          
+
+            gameFrame++;
+
+           requestAnimationFrame(testDude)
+        }
+
+        testDude();
+        
+        
+        
+        function drawDude(){
+            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            ctx.drawImage(dudeImage, frameX * dudeWidth, frameY * dudeHeight, dudeWidth, dudeHeight, 0, 0, 600, 600);
+            if(gameFrame % staggerFrame === 0){
+                if(frameX < 3) frameX++;
+                else frameX = 0;
+            }
+            gameFrame++;
+            requestAnimationFrame(drawDude)
+
+        }
+        //drawDude();
+
+   
+    </script>
+</body>
+
+</html>
+
