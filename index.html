@@ -1,79 +1,115 @@
-<!--create a website for a full stack devloper using html and css and react-->
-<!-- This code creates a scrolling website. -->
-<!--create  a scrolling website -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+   
+  
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta http-equiv="Pragma-directive" content="no-cache">
+  <meta http-equiv="Cache-directive" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta http-equiv="Cache-Control" content="max-age=0">
+  <meta http-equiv="Cache-Control" content="max-age=1">
+  <meta http-equiv="Cache-Control" content="max-age=0, must-revalidate">
+
+
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mike Hodges Full Stack Developer</title>
+
+  <!-- <title>Mike Hodges Full Stack Developer</title>-->
+
+  <title>Mike Hodges</title>   
+  
+  <!-- <title>Page Ttile</title>  -->
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Og Title">
+    <meta property="og:description" content="Og Description">
+
+    <meta property="og:image" content="http://mikehodges.net/images/og-image/lookabove0175.png">
+    <meta property="og:image:secure_url" content="https://mikehodges.net/images/og-image/lookabove0175.png"> 
+    
+    <meta property="og:image:type" content="image/png" /> 
+
+
+    <meta property="og:url" content="https://mikehodges.net">
+    <meta property="og:secure_url" content="https://mikehodges.net">
+
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website"> 
+
+<meta property="og:image" itemprop="image" content="https://mikehodges.net/images/og-image/lookabove0175.png" />
+  
+
+
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <link itemprop="thumbnailUrl" href="https://mikehodges.net/images/og-image/lookabove0175.png">
+
+<span itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
+<link itemprop="url" href="https://mikehodges.net/images/og-image/lookabove0175.png">
+</span>
   <div class="container">
     <div class="content">
       <header>
-        <h1>Mike Hodges Full Stack Developer </h1>
-        <div style="display:flex; flex-wrap: wrap; justify-content:space-evenly ; align-content: space-around;  margin: 20px ;">
-          
-              
-          <div style="align-items: start;  justify-content: left; " >
-              <a href="https://www.linkedin.com/in/mikehodges42/" target="_blank" style="text-decoration: none; color: #bad7e7;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" style="vertical-align: middle; width: 40px; height: 40px; margin-right: 8px;">
-                <span style="font-size: 18px;">Connect with me on LinkedIn! </span> 
-               </a>
-          </div>
-              
-         
-          <!-- <p style="font-size: 14px; color: #fff;">Join my network to stay updated with the latest industry trends and insights.</p> -->
-       
-          <div style="align-items: start; width: px; " >
-            <a href="https://github.com/MikeHodges-IT" target="_blank" style="text-decoration: none; color: #bad7e7;">
-            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" style="vertical-align: middle; width: 40px; height: 40px; margin-right: 8px;">
-            <span style="font-size: 18px;">Follow me on GitHub!</span>
-            </a>
-          </div>
-            
         
-        <!-- <p style="font-size: 14px; color: #ffffff;">Check out my projects and repositories on GitHub.</p> -->
-      </div>
+        <div class ="intro">
+        
+          <div class="round-container">
+            <img src="images/headshot/MikeBlueShirtArmsCrossed02_120_150_.png" alt="Mike Hodges"
+              style="width: 100%; height: auto; border-radius: 18%;">
+           
+            <!-- <img src="images/og-image/lookabove0175.png" alt="alt from link"
+              style="width: 100%; height: auto; border-radius: 18%;">-->
+              
+          </div> 
+        
+        
+          <div class="intro-text">
+            <h1>Hello! My name is</h1>
+            <h1>Mike Hodges.</h1>
+            <h1>I am a Full Stack Developer</h1>
+          </div>
+        
+        </div>
+        
+        <div style=" display:flex; flex-wrap: wrap;   
+                     justify-content:space-evenly; 
+                     align-content: space-around;  
+                     margin: 20px ;" >
+        
+            <div style="align-items: start;  justify-content: left; width: 290px; ">
+                <a href="https://www.linkedin.com/in/mikehodges42/" target="_blank" style="text-decoration: none;">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn"
+                        style="vertical-align: middle; width: 40px; height: 40px; margin-right: 8px;">
+                      <span style="font-size: 18px;color:  #B85042;">Connect with me on LinkedIn! </span>
+                </a>
+            </div>
+          
+            <div style="align-items: start; width: 290px; ">
+                  <a href="https://github.com/MikeHodges-IT" target="_blank" style="text-decoration: none; ">
+                      <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub"
+                        style="vertical-align: middle; width: 40px; height: 40px; margin-right: 8px;">
+                      <span style="font-size: 18px;color:  #B85042;">Follow me on GitHub!</span>
+                  </a>
+            </div>
+        
+        </div>
+      
       </header>
-<!-- 
-      <nav>
+
+
+      <!-- <nav>
         <ul>
           <li><a href="#about">About Me</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav> -->
-
-      <section id="about">
-        
-        <h2>About Me</h2> <img src="images/headshot/Headshot.png" alt="Image" style="float: Left; margin:20px; width: 80px; height: auto;">
-        <p id="demo"></p>
-        <p>Mike Hodges is a full stack developer with experience in HTML, CSS, JavaScript, Python, Java, C++, ASP, PHP, Assembly
-          Language, ColdFusion, AS3, MySQL, SQL Server, Spin, and VBA, and more. He loves creating beautiful and functional websites and 
-          applications.</p>
-        
-        <p>Mike is a graduate of Valencia College with a Bachelor of Science in Computer Technology and Software Development.
-           His most recent project involved working for the City of Orlando.</p>
-
-        <p>Mike is a lifelong learner and is always looking for new ways to improve his skills. He is currently learning React and
-          is excited to start building projects with it.</p>
-
-        <p>Mike is an exceptional asset to your team right now! 
-          With a wealth of experience and a deep understanding of the industry, he brings unparalleled value to the table. Don't let the age of his portfolio mislead you – his seasoned expertise and proven track record make him the ideal candidate. 
-          Seize this opportunity to hire Mike and leverage his extensive knowledge for your company's success!</p>  
-
-
-
-
-
-
-
-
-      </section>
 
       <section id="projects">
         <h2>Projects</h2>
@@ -86,11 +122,13 @@
           <p>JavaScript, Leaflet, HTML, CSS</p>
           <h4>Description of Project</h4>
           <p>A program focused on tracking the energy and water output of Orlando's largest buildings.</p>
+          <p>
+            "Green City" Designation: Contributed to Orlando's designation as a "Green City" and the awarding of related grants.
+          </p>
           <ul>
             <li>Enhances decision-making capabilities significantly by extensively utilizing JavaScript to filter JSON data.</li>
             <li>Utilized leaflet maps, along with various graphs and grids, to facilitate data dissemination,
-               enabling clients 
-              to gain a clear understanding of energy conservation participation. </li>
+               enabling clients to gain a clear understanding of energy conservation participation. </li>
             <li>Developed a user-friendly interface that allows clients to easily access and analyze data.</li> 
             <li>Implemented a responsive design that allows the website to be viewed on any device.</li>
             <li>Followed City of Orlando guidelines closely, ensuring consistency and continuity by customizing Leaflet popup styles with CSS.</li>
@@ -104,8 +142,6 @@
           <h3>California Federal Court System Project (2004-2012)</h3>
           <p>Developed and maintained a robust web application for the five districts of the California Federal Court System,
             ensuring efficient data management and seamless user experience.</p>
-        
-        
           <h4>Technologies Used</h4>
           <ul>
             <li>Backend: SQL database for data collection, storage, and management.</li>
@@ -129,41 +165,92 @@
           <p>This system provided a blazing-fast and stable platform for users, combining the benefits of dynamic data.</p>
         </div>
 
-        <div class="project">
-          <img src="images/projects/mathanader/game_play.jpg" alt="Image" style="float: Right; width: 200px; height: auto;">
-          <h3>
-            <a href="https://github.com/MikeHodges-IT/mathanator" target="_blank">Mathinator</a>
-          </h3>
+  
+  <div class="project">
+    <h2>Software Development Businesses</h2>
+    <h3>WPDD, Inc./Advance Business Intelligence, Inc.</h3>
+      <h4>Services and Solutions 2000-2005</h4>
+    <p>WPDD, Inc./Advanced Business Intelligence, Inc. - 
+      Co-Owner of a Company that provided full service business intelligence and website solutions. 
+      From a small e-commerce application to large scale, legacy integration projects, 
+      my company provided customized solutions. 
+    </p>
+        <h4>Project Portfolio</h4>
+        <h4>AT&T</h4>
+        <ul>
+            <li><strong>Project:</strong> Cold Fusion Software Development</li>
+            <li><strong>Scope:</strong> Developed software to query data associated with AT&T Wireless, including sales and location information.</li>
+        </ul>
+    
+        <h4>Marriott Senior Living Services</h4>
+        <ul>
+            <li><strong>Project:</strong> Custom PowerPoint Presentation System</li>
+            <li><strong>Scope:</strong> Created a system enabling salespeople to generate customized PowerPoint presentations for doctors. Salespeople could log in, select the specific senior living location, and customize presentations for their targeted doctors, enhancing their pitch efficiency.</li>
+        </ul>
+    
+        <h4>Unisys</h4>
+        <ul>
+            <li><strong>Project:</strong> B2B Business Solution</li>
+            <li><strong>Scope:</strong> Developed a tailored e-commerce platform for direct sales. The solution included customized shopping carts and shopping systems that catered to the specific needs of individual customers.</li>
+        </ul>
         
-          <h4>Technologies Used</h4>
-          <p>Java, Android Studio, SQLite</p>
-          <h4>Description of Project</h4>
-          <p>Mathinator is an engaging mobile game designed to help users of all ages improve their multiplication skills
-            through a series of questions and fun.</p>
-          <ul>
-            <li>User Registration: Created unique profiles to track progress.
-            <li>Score tracking through the use of SQLite database built within the application helping to keep an eye on your
-              high scores and personal improvement.
-            <li>Interactive UI: A user-friendly interface that makes learning fun and easy. </li>
-          </ul>
-        </div>
+        <h4>Federal Court System</h4>
+        <ul>
+            <li><strong>Project:</strong> Content Management System</li>
+            <li><strong>Scope:</strong> Created a robust content management system with an SQL backend and HTML frontend. 
+              Opted for static HTML pages to reduce server load and improve performance, with dynamic updates triggered by database 
+              changes.</li>
+        </ul>
+
+        <!-- <h4>America's Spa and Salon</h4>
+        <ul>
+            <li><strong>Project:</strong> Comprehensive In-House Server Solution</li>
+            <li><strong>Scope:</strong> Developed an all-in-one server solution featuring an SQL database for managing point of sale, inventory, e-commerce, and shipping/receiving operations. This system allowed real-time inventory updates, seamless integration with the website for online sales, and efficient in-house sales management.</li>
+        </ul>
+    
+        <h4>Insightful Survey</h4>
+        <ul>
+            <li><strong>Project:</strong> Advanced Survey and Management Systems</li>
+            <li><strong>Scope:</strong> Created a versatile survey system capable of handling complex survey formats, including matrices. </li>
+        </ul> -->
+  </div>
+</section>
+
+
+<section id="about">
+  <h2>About Me</h2>
+  <div class="about">
+<p>I'm a Full Stack Developer with over 10 years of experience in the industry. </p> 
+ 
+  <p>I have a passion for creating innovative solutions that drive business growth and improve user experience. 
+    My expertise lies in developing web applications, software solutions, and database management systems that meet the unique needs of clients.</p>
+  <p>I have experience in  JavaScript, Python, Java, C++, HTML, CSS and more.  I love creating beautiful and functional websites and 
+    applications.</p>
+  
+  <p>I' have a Bachelor of Science in Computer Technology and Software Development.
+     My most recent project involved working for the City of Orlando.</p>
+
+  <p>I'm a lifelong learner who is always looking for new ways to improve my skills. I'm currently working on 90 Days of Dev Ops.</p>
+
+</div>
+</section>
 
 
 
-        </section>
-      <section id="contact">
+
+<section id="contact">
         <h2>Contact</h2>
-        <p>You can reach me at M.Hodges.IT42orlando@gmail.com</p>
+        <p><a href="mailto:M.Hodges.IT42orlando@gmail.com" target="_blank">M.Hodges.IT42orlando@gmail.com</a></p>
         <a href="https://www.linkedin.com/in/mikehodges42" target="_blank">
           <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" style="width: 40px; height: 40px;">
         </a>
-        <a href="https://github.com/MikeHodges-IT" target="_blank" style="text-decoration: none; color: #bad7e7;">
+        <a href="https://github.com/MikeHodges-IT" target="_blank" style="text-decoration: none;">
           <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" style=" width: 40px; height: 40px;">
       </a>
       </section>
 
       <footer>
-        <p>&copy; 2022 Full Stack Developer Portfolio</p>
+        <p>&copy; 2022 Full Stack Developer Portfolio V0.03</p>
       </footer>
     </div>
   </div>
