@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mike Hodges' Orlando Building Energy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #8bc53f;
+            color: #fff;
+            padding: 20px; /* Reduced the padding to make the header thinner */
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-bottom: 5px solid #fab92e; /* Reverted the accent color */
+        }
+        header h1, header p {
+            color: #fff; /* Changed all header text to white */
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            letter-spacing: 1.5px;
+        }
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .container img {
+            float: right;
+            width: 600px;
+            height: auto;
+            border-radius: 10px;
+            margin-left: 40px; /* Added more padding around the image */
+        }
+        .container p {
+            font-size: 1.4em; /* Increased text size for better area fill */
+            margin-bottom: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        a {
+            color: #ae8120;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .large-link {
+            font-size: 1.8em; /* Increased size for the link */
+            font-weight: bold;
+        }
+        .note {
+            font-style: italic;
+            color: #777;
+        }
+        .cta {
+            background-color: #8bc53f;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px; /* Adds space between image and buttons */
+        }
+        .cta:hover {
+            background-color: #7ab239;
+        }
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Mike Hodges' Orlando Building Energy</h1>
+    <p>Providing data on building energy use throughout Orlando</p>
+</header>
+
+<div class="container clearfix">
+    <img src="../images/ScreenshotDashboard.png" alt="Orlando Building Energy Dashboard">
+    <p>Welcome to the <strong>Orlando Building Energy Project</strong>! This initiative is part of the <strong>Orlando Greenworks Initiative</strong>, focused on providing detailed data on building energy usage throughout the city of Orlando.</p>
+
+    <a href="http://mikehodges.net" class="cta">Learn more about me at MikeHodges.net</a>
+    <a href="https://www.linkedin.com/in/mikehodges42" class="cta">Connect with me on LinkedIn</a>
+
+    <h2>Explore the Orlando Building Energy Dashboard</h2>
+    <p>Explore the <strong>Orlando Building Energy Dashboard</strong> by clicking the link below:</p>
+    <a href="index.html" class="large-link">Orlando Building Energy Dashboard</a>
+
+    <p class="note">Note: This site is a <strong>portfolio piece</strong>, created to demonstrate my ability to customize the look and feel of <strong>Oracle APEX</strong>. It showcases interesting functionality and interaction, including the <strong>integration of maps, totals, grids, and graphs</strong>, along with interactive <strong>search</strong> and <strong>data display</strong> features. If this were a real commissioned project, it would be more fully fleshed out with additional features and functionality.</p>
+
+    <h2>About the Project</h2>
+    <p>This project highlights the integration of multiple technologies and custom development within <strong>Oracle APEX</strong>, including:</p>
+
+    <ul>
+        <li><strong>Custom Plugin</strong>: A key feature is the <strong>Leaflet-powered map</strong> that dynamically changes the size and color of map points based on data. The plugin uses <strong>AJAX callbacks</strong> to update map points and interact with the database, leveraging the <strong>native region refresh</strong> functionality and pulling the query directly from the <strong>Page Designer source</strong>. This ensures that the map stays updated with the latest data without requiring page reloads.</li>
+        <li><strong>Technologies Used</strong>: This project utilizes a range of technologies:
+            <ul>
+                <li><strong>PL/SQL and SQL</strong> for managing and processing data.</li>
+                <li><strong>HTML, CSS, and JavaScript</strong> for the front-end interface and interactivity.</li>
+                <li><strong>APEX AJAX callbacks, processes, and dynamic actions</strong> to create an engaging and highly interactive experience.</li>
+                <li><strong>Faceted Search</strong> and interactive reports for efficient data filtering and exploration.</li>
+            </ul>
+        </li>
+        <li><strong>Focus on Customization</strong>: The site features custom CSS styling and JavaScript enhancements, giving it a polished, user-friendly feel. The goal is to provide a seamless and intuitive interface for exploring energy data.</li>
+    </ul>
+
+    <h2>About Me</h2>
+    <p>I am <strong>Mike Hodges</strong>, an Oracle APEX certified developer with extensive experience in software development. I’ve worked on high-impact projects for organizations like <strong>AT&T</strong>, <strong>Marriott</strong>, and the <strong>Federal Courts</strong>. You can learn more about me and my work at <a href="http://mikehodges.net">mikehodges.net</a>.</p>
+
+    <p>You can also check out some of the projects I’ve been working on at <a href="https://github.com/MikeHodges-IT">my GitHub page</a>, where I regularly update my work and share new developments.</p>
+
+    <h2>Acknowledgment</h2>
+    <p>I want to acknowledge <strong>Maxime Tremblay</strong> and <strong>Philipp Hartenfeller</strong> for their help with critical pieces of this project. Your insights and encouragement made a real difference in overcoming essential challenges. Thank you both for your support!</p>
+</div>
+
+</body>
+</html>
+
