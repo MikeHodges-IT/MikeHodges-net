@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Manager</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Link Management System</h1>
+    <form id="linkForm">
+        <input type="hidden" id="linkId">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <label for="website">Website:</label>
+        <input type="url" id="website" name="website" required>
+
+        <button type="button" onclick="addOrUpdateLink()">Save Link</button>
+    </form>
+
+    <h2>Links List</h2>
+    <table id="linksTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Description</th>
+                <th>Website</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Entries will appear here dynamically -->
+        </tbody>
+    </table>
+
+    <script src="js/script.js">
+        window.addEventListener('load', function() {
+          renderLinks();
+          console.log("Page loaded");
+        });
+
+    </script>
+
+</body>
+</html>

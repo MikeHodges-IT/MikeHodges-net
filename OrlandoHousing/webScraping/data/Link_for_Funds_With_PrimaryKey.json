@@ -1,0 +1,176 @@
+[
+    {
+        "ID":1,
+        "Resource":"Resource Library",
+        "Description":"A comprehensive collection of materials, including guides and templates, to assist CLTs in various aspects of their operations.",
+        "Link":"https:\/\/groundedsolutions.org\/tools-success\/resource-library\/"
+    },
+    {
+        "ID":2,
+        "Resource":"Startup Community Land Trust Hub",
+        "Description":"Provides guidance on developing budgets and identifying funding sources, crucial for new CLTs.",
+        "Link":"https:\/\/groundedsolutions.org\/resources\/start-upclthub\/"
+    },
+    {
+        "ID":3,
+        "Resource":"Stewardship Policies and Procedures Manual",
+        "Description":"Offers insights into aligning policies with funding requirements, ensuring compliance with various funding sources.",
+        "Link":"https:\/\/groundedsolutions.org\/wp-content\/uploads\/2024\/05\/Stewardship-Policies-Procedures-Template-Manual-Public-Version.pdf"
+    },
+    {
+        "ID":4,
+        "Resource":"Florida Housing Finance Corporation (FHFC)",
+        "Description":"Provides funding for affordable housing initiatives across Florida.",
+        "Link":"https:\/\/www.floridahousing.org\/"
+    },
+    {
+        "ID":5,
+        "Resource":"Florida Community Loan Fund (FCLF)",
+        "Description":"Offers financing for community development projects, including affordable housing.",
+        "Link":"https:\/\/fclf.org\/"
+    },
+    {
+        "ID":6,
+        "Resource":"Orange County Housing and Community Development",
+        "Description":"Administers federal and state funds for housing projects in Orange County.",
+        "Link":"https:\/\/www.orangecountyfl.net\/Neighbors-Housing\/Housing-Development"
+    },
+    {
+        "ID":7,
+        "Resource":"City of Orlando Housing and Community Development",
+        "Description":"Provides grants and loans for affordable housing within Orlando.",
+        "Link":"https:\/\/www.orlando.gov\/Our-Government\/Departments-Offices\/Housing-Community-Development"
+    },
+    {
+        "ID":8,
+        "Resource":"Winter Park Community Redevelopment Agency (CRA)",
+        "Description":"Offers funding for projects that revitalize and improve housing in Winter Park.",
+        "Link":"https:\/\/cityofwinterpark.org\/departments\/community-redevelopment-agency\/"
+    },
+    {
+        "ID":9,
+        "Resource":"Central Florida Foundation",
+        "Description":"Provides grants to nonprofit organizations focused on community development.",
+        "Link":"https:\/\/cffound.org\/"
+    },
+    {
+        "ID":10,
+        "Resource":"Bank of America Charitable Foundation",
+        "Description":"Offers grants for affordable housing and community revitalization projects.",
+        "Link":"https:\/\/about.bankofamerica.com\/en\/making-an-impact\/charitable-foundation-funding"
+    },
+    {
+        "ID":11,
+        "Resource":"Wells Fargo Foundation",
+        "Description":"Provides funding for housing affordability initiatives.",
+        "Link":"https:\/\/www.wellsfargo.com\/about\/corporate-responsibility\/community-giving\/housing-affordability\/"
+    },
+    {
+        "ID":12,
+        "Resource":"TD Charitable Foundation",
+        "Description":"Offers grants for affordable housing and community development.",
+        "Link":"https:\/\/www.td.com\/us\/en\/about-us\/communities\/ready-commitment\/funding-opportunities\/"
+    },
+    {
+        "ID":13,
+        "Resource":"SunTrust Foundation",
+        "Description":"Provides grants for community development and affordable housing projects.",
+        "Link":"https:\/\/www.suntrust.com\/foundation"
+    },
+    {
+        "ID":14,
+        "Resource":"PNC Foundation",
+        "Description":"Supports community development initiatives, including affordable housing.",
+        "Link":"https:\/\/www.pnc.com\/en\/about-pnc\/corporate-responsibility\/philanthropy\/pnc-foundation.html"
+    },
+    {
+        "ID":15,
+        "Resource":"Federal Home Loan Bank of Atlanta (FHLBank Atlanta)",
+        "Description":"Offers the Affordable Housing Program (AHP) grants for housing projects.",
+        "Link":"https:\/\/www.fhlbatl.com\/"
+    },
+    {
+        "ID":16,
+        "Resource":"Enterprise Community Partners",
+        "Description":"Provides grants and financing for affordable housing development.",
+        "Link":"https:\/\/www.enterprisecommunity.org\/"
+    },
+    {
+        "ID":17,
+        "Resource":"Local Initiatives Support Corporation (LISC) Central Florida",
+        "Description":"Offers funding and support for community development projects.",
+        "Link":"https:\/\/www.lisc.org\/central-florida\/"
+    },
+    {
+        "ID":18,
+        "Resource":"NeighborWorks America",
+        "Description":"Provides grants and technical assistance for affordable housing initiatives.",
+        "Link":"https:\/\/www.neighborworks.org\/"
+    },
+    {
+        "ID":19,
+        "Resource":"Florida Community Development Association (FCDA)",
+        "Description":"Offers resources and information on funding opportunities for community development.",
+        "Link":"https:\/\/www.flacdc.org\/"
+    },
+    {
+        "ID":20,
+        "Resource":"Florida Department of Economic Opportunity (DEO)",
+        "Description":"Administers community development block grants and other funding programs.",
+        "Link":"https:\/\/www.floridajobs.org\/"
+    },
+    {
+        "ID":21,
+        "Resource":"U.S. Department of Housing and Urban Development (HUD) Florida Office",
+        "Description":"Provides information on federal funding programs for housing.",
+        "Link":"https:\/\/www.hud.gov\/states\/florida"
+    },
+    {
+        "ID":22,
+        "Resource":"National Housing Trust Fund (NHTF)",
+        "Description":"Offers funding for the production and preservation of affordable housing.",
+        "Link":"https:\/\/www.floridahousing.org\/programs\/special-programs\/national-housing-trust-fund"
+    },
+    {
+        "ID":23,
+        "Resource":"Community Development Financial Institutions (CDFI) Fund",
+        "Description":"Provides financial assistance to CDFIs for community development projects.",
+        "Link":"https:\/\/www.cdfifund.gov\/"
+    },
+    {
+        "ID":24,
+        "Resource":"Florida Association of Local Housing Finance Authorities (Florida ALHFA)",
+        "Description":"Offers resources and information on local housing finance programs.",
+        "Link":"https:\/\/www.flalhfa.com\/"
+    },
+    {
+        "ID":25,
+        "Resource":"Florida Housing Coalition",
+        "Description":"Offers technical assistance and information on funding opportunities for affordable housing.",
+        "Link":"https:\/\/flhousing.org\/"
+    },
+    {
+        "ID":26,
+        "Resource":"Florida Department of Environmental Protection (DEP) - Florida Communities Trust",
+        "Description":"Provides grants for land acquisition projects that support community development.",
+        "Link":"https:\/\/floridadep.gov\/lands\/land-and-recreation-grants\/content\/florida-communities-trust"
+    },
+    {
+        "ID":27,
+        "Resource":"Florida Department of Agriculture and Consumer Services (FDACS) - Rural and Family Lands Protection Program",
+        "Description":"Offers funding for land conservation projects that can support affordable housing.",
+        "Link":"https:\/\/www.fdacs.gov\/Divisions-Offices\/Florida-Forest-Service\/Our-Forests\/Land-Planning-and-Administration-Section\/Rural-and-Family-Lands-Protection-Program"
+    },
+    {
+        "ID":28,
+        "Resource":"Florida Department of State - Division of Historical Resources",
+        "Description":"Provides grants for historic preservation projects, which can include affordable housing.",
+        "Link":"https:\/\/dos.myflorida.com\/historical\/grants\/"
+    },
+    {
+        "ID":29,
+        "Resource":"Florida Department of Children and Families (DCF) - Office on Homelessness",
+        "Description":"Offers funding for programs addressing homelessness, which can intersect with affordable housing.",
+        "Link":"https:\/\/www.myflfamilies.com\/"
+    }
+]

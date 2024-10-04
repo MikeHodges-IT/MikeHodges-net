@@ -1,0 +1,177 @@
+[
+    {
+        "ID":1,
+        "Church Name":"Catholic Charities of Central Florida",
+        "Location":"Orlando, FL",
+        "Description":"Provides affordable and transitional housing, case management, and emergency financial assistance through their Family Stability Program.",
+        "Website":"https:\/\/cflcc.org\/financial-assistance\/"
+    },
+    {
+        "ID":2,
+        "Church Name":"Christian Service Center for Central Florida",
+        "Location":"Orlando, FL",
+        "Description":"Offers comprehensive day services, including housing assistance, to prevent homelessness and combat poverty.",
+        "Website":"https:\/\/www.christianservicecenter.org\/"
+    },
+    {
+        "ID":3,
+        "Church Name":"St. Vincent de Paul CARES",
+        "Location":"Orlando, FL",
+        "Description":"Assists individuals, families, and veterans in securing permanent housing through programs like Rapid Rehousing and Permanent Supportive Housing.",
+        "Website":"https:\/\/www.svdpsp.org\/programs\/housing\/"
+    },
+    {
+        "ID":4,
+        "Church Name":"HOPE Helps, Inc.",
+        "Location":"Oviedo, FL",
+        "Description":"Aims to prevent and reduce homelessness by providing housing assistance, outreach, prevention, and education services.",
+        "Website":"https:\/\/www.hopehelps.org\/resource-center\/"
+    },
+    {
+        "ID":5,
+        "Church Name":"Northland Church",
+        "Location":"Longwood, FL",
+        "Description":"Collaborates with other faith organizations to support the homeless community through initiatives like the Community Resource Network.",
+        "Website":"https:\/\/www.northlandchurch.net\/"
+    },
+    {
+        "ID":6,
+        "Church Name":"First Baptist Church Naples",
+        "Location":"Naples, FL",
+        "Description":"Engages in various community outreach programs and supports local and international missions, including housing assistance.",
+        "Website":"https:\/\/fbcn.org\/"
+    },
+    {
+        "ID":7,
+        "Church Name":"First Assembly of God",
+        "Location":"Fort Myers, FL",
+        "Description":"Provides community assistance and global outreach programs, including support for housing initiatives.",
+        "Website":"https:\/\/www.famfm.com\/"
+    },
+    {
+        "ID":8,
+        "Church Name":"Christ Fellowship Church",
+        "Location":"Palm Beach Gardens, FL",
+        "Description":"Involved in numerous local and international charitable initiatives, including housing assistance.",
+        "Website":"https:\/\/gocf.org\/"
+    },
+    {
+        "ID":9,
+        "Church Name":"First Baptist Church Orlando",
+        "Location":"Orlando, FL",
+        "Description":"Provides community support and engages in global missions, including housing assistance programs.",
+        "Website":"https:\/\/www.firstorlando.com\/"
+    },
+    {
+        "ID":10,
+        "Church Name":"St. Luke's United Methodist Church",
+        "Location":"Orlando, FL",
+        "Description":"Offers various community assistance programs and supports missions, including housing initiatives.",
+        "Website":"https:\/\/www.st.lukes.org\/"
+    },
+    {
+        "ID":11,
+        "Church Name":"Summit Church",
+        "Location":"Orlando, FL",
+        "Description":"Involved in community outreach and support programs, including housing assistance.",
+        "Website":"https:\/\/www.summitconnect.org\/"
+    },
+    {
+        "ID":12,
+        "Church Name":"Grace Family Church",
+        "Location":"Lutz, FL",
+        "Description":"Offers various community services and supports missions, including housing assistance.",
+        "Website":"https:\/\/gfconline.com\/"
+    },
+    {
+        "ID":13,
+        "Church Name":"Idlewild Baptist Church",
+        "Location":"Lutz, FL",
+        "Description":"Provides community assistance and engages in global missions, including housing initiatives.",
+        "Website":"https:\/\/www.idlewild.org\/"
+    },
+    {
+        "ID":14,
+        "Church Name":"Bell Shoals Baptist Church",
+        "Location":"Brandon, FL",
+        "Description":"Active in community service and supports missions, including housing assistance.",
+        "Website":"https:\/\/bellshoals.com\/"
+    },
+    {
+        "ID":15,
+        "Church Name":"First Baptist Church of Indian Rocks",
+        "Location":"Largo, FL",
+        "Description":"Engages in various charitable activities and community services, including housing assistance.",
+        "Website":"https:\/\/www.indianrocks.org\/"
+    },
+    {
+        "ID":16,
+        "Church Name":"Calvary Baptist Church",
+        "Location":"Clearwater, FL",
+        "Description":"Offers community support and engages in global missions, including housing initiatives.",
+        "Website":"https:\/\/calvary.us\/"
+    },
+    {
+        "ID":17,
+        "Church Name":"Anastasia Baptist Church",
+        "Location":"St. Augustine, FL",
+        "Description":"Provides community assistance and supports missions, including housing assistance.",
+        "Website":"https:\/\/anastasiabaptist.org\/"
+    },
+    {
+        "ID":18,
+        "Church Name":"First Baptist Church of Ocala",
+        "Location":"Ocala, FL",
+        "Description":"Involved in community service and global outreach programs, including housing assistance.",
+        "Website":"https:\/\/www.fbcocala.org\/"
+    },
+    {
+        "ID":19,
+        "Church Name":"Trinity United Methodist Church",
+        "Location":"Gainesville, FL",
+        "Description":"Offers various community assistance programs and supports missions, including housing initiatives.",
+        "Website":"https:\/\/www.trinitygnv.org\/"
+    },
+    {
+        "ID":20,
+        "Church Name":"The Family Church",
+        "Location":"Gainesville, FL",
+        "Description":"Engages in community outreach and support programs, including housing assistance.",
+        "Website":"https:\/\/www.thefamilychurch.net\/"
+    },
+    {
+        "ID":21,
+        "Church Name":"Greenhouse Church",
+        "Location":"Gainesville, FL",
+        "Description":"Active in community service and global missions, including housing assistance.",
+        "Website":"https:\/\/greenhousechurch.org\/"
+    },
+    {
+        "ID":22,
+        "Church Name":"First United Methodist Church of Gainesville",
+        "Location":"Gainesville, FL",
+        "Description":"Provides community support and engages in charitable activities, including housing assistance.",
+        "Website":"https:\/\/www.fumcgnv.org\/"
+    },
+    {
+        "ID":23,
+        "Church Name":"Christ Community Church",
+        "Location":"Gainesville, FL",
+        "Description":"Offers various community services and supports missions.",
+        "Website":"https:\/\/www.christcommunitychurch.com\/"
+    },
+    {
+        "ID":24,
+        "Church Name":"Ignite Life Center",
+        "Location":"Gainesville, FL",
+        "Description":"Engages in community outreach and support programs.",
+        "Website":"https:\/\/www.ignitelifecenter.org\/"
+    },
+    {
+        "ID":25,
+        "Church Name":"First Baptist Church of Lakeland",
+        "Location":"Lakeland, FL",
+        "Description":"Provides community assistance and supports missions.",
+        "Website":"https:\/\/www.fbclakeland.org\/"
+    }
+]
