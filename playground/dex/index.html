@@ -1,54 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dexcom Login Test</title>
+  <title>Dexcom Glucose Test</title>
 </head>
 <body>
-  <h2>Dexcom Share US Login Test v3</h2>
+  <h2>Dexcom Share Glucose Fetch v4</h2>
   <label>Username: <input id="username" type="text"></label><br>
   <label>Password: <input id="password" type="password"></label><br>
-  <button onclick="testLogin()">Test Login</button>
+  <button onclick="testLoginAndFetch()">Get Glucose</button>
   <pre id="output"></pre>
 
   <script>
-    async function testLogin() {
+    async function testLoginAndFetch() {
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
+      const appId = "d89443d2-327c-4a6f-89e5-496bbb0317db";
 
-      const appId = "d89443d2-327c-4a6f-89e5-496bbb0317db"; // Dexcom iOS App ID
-    
-
-      const loginUrl = "https://share2.dexcom.com/ShareWebServices/Services/General/AuthenticatePublisherAccount";
-
-      const body = JSON.stringify({
-        accountName: username,
-        password: password,
-        applicationId: appId
-      });
+      const loginUrl = "https://share2.dexcom.com/ShareWebServices/Services/General/LoginPublisherAccountByName";
+      const glucoseUrl = "https://share2.dexcom.com/ShareWebServices/Services/Publisher/ReadPublisherLatestGlucoseValues";
 
       try {
-        const res = await fetch(loginUrl, {
+        // Step 1: Login
+        const loginRes = await fetch(loginUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "User-Agent": "Dexcom Share/3.0.2.11 CFNetwork/711.2.23 Darwin/14.0.0"
           },
-          body: body
+          body: JSON.stringify({
+            accountName: username,
+            password: password,
+            applicationId: appId
+          })
         });
 
-        const text = await res.text();
-
-        if (res.ok && text && !text.includes("00000000")) {
-          document.getElementById("output").innerText = "✅ Valid session ID:\n" + text;
-        } else {
-          document.getElementById("output").innerText = "❌ Login failed or invalid session.\n" + text;
+        const sessionId = await loginRes.text();
+        if (!loginRes.ok || sessionId.includes("00000000")) {
+          document.getElementById("output").innerText = "❌ Login failed\n" + sessionId;
+          return;
         }
 
+        document.getElementById("output").innerText = "✅ Session ID:\n" + sessionId + "\n\nFetching glucose...";
+
+        // Step 2: Fetch glucose
+        const glucoseRes = await fetch(glucoseUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "User-Agent": "Dexcom Share/3.0.2.11 CFNetwork/711.2.23 Darwin/14.0.0"
+          },
+          body: JSON.stringify({
+            sessionId: sessionId.replace(/"/g, ''),
+            minutes: 1440,
+            maxCount: 1
+          })
+        });
+
+        const glucoseText = await glucoseRes.text();
+        document.getElementById("output").innerText += "\n\n📊 Glucose response:\n" + glucoseText;
       } catch (err) {
-        document.getElementById("output").innerText = "❌ Request error:\n" + err;
+        document.getElementById("output").innerText += "\n❌ Error:\n" + err;
       }
     }
   </script>
 </body>
 </html>
+
 
