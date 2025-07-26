@@ -16,7 +16,9 @@
       const password = document.getElementById("password").value;
 
       const appId = "d89443d2-327c-4a6f-89e5-496bbb0317db"; // Dexcom iOS App ID
-      const loginUrl = "https://share2.dexcom.com/ShareWebServices/Services/General/LoginPublisherAccountByName";
+    
+
+      const loginUrl = "https://share2.dexcom.com/ShareWebServices/Services/General/AuthenticatePublisherAccount";
 
       const body = JSON.stringify({
         accountName: username,
