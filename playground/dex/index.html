@@ -1,49 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dexcom Test</title>
+  <title>Dexcom Login Test</title>
 </head>
 <body>
-  <h2>Dexcom US Credential Test</h2>
+  <h2>Dexcom Share US Login Test</h2>
   <label>Username: <input id="username" type="text"></label><br>
   <label>Password: <input id="password" type="password"></label><br>
-  <button onclick="loginDexcom()">Test Login</button>
+  <button onclick="testLogin()">Test Login</button>
   <pre id="output"></pre>
 
   <script>
-    const baseUrl = "https://share2.dexcom.com/ShareWebServices/Services";
-
-    async function loginDexcom() {
+    async function testLogin() {
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
-      const appId = "d89443d2-327c-4a6f-89e5-496bbb0317db"; // Known working app ID
 
-      document.getElementById("output").innerText = "Logging in...";
+      const appId = "d89443d2-327c-4a6f-89e5-496bbb0317db"; // Dexcom iOS App ID
+      const loginUrl = "https://share2.dexcom.com/ShareWebServices/Services/General/LoginPublisherAccountByName";
+
+      const body = JSON.stringify({
+        accountName: username,
+        password: password,
+        applicationId: appId
+      });
 
       try {
-        const loginRes = await fetch(`${baseUrl}/General/LoginPublisherAccountByName`, {
+        const res = await fetch(loginUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "User-Agent": "Dexcom Share/3.0.2.11 CFNetwork/711.2.23 Darwin/14.0.0"
           },
-          body: JSON.stringify({
-            accountName: username,
-            password: password,
-            applicationId: appId
-          })
+          body: body
         });
 
-        const sessionId = await loginRes.text();
-        if (sessionId.includes("SessionId") || sessionId.length > 10) {
-          document.getElementById("output").innerText = `✅ Login successful. SessionID:\n${sessionId}`;
+        const text = await res.text();
+
+        if (res.ok && text && !text.includes("00000000")) {
+          document.getElementById("output").innerText = "✅ Valid session ID:\n" + text;
         } else {
-          document.getElementById("output").innerText = `❌ Login failed.\nResponse:\n${sessionId}`;
+          document.getElementById("output").innerText = "❌ Login failed or invalid session.\n" + text;
         }
+
       } catch (err) {
-        document.getElementById("output").innerText = `❌ Error: ${err}`;
+        document.getElementById("output").innerText = "❌ Request error:\n" + err;
       }
     }
   </script>
 </body>
 </html>
+
