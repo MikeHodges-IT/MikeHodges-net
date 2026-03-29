@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations Map Dashboard</title>
+    <style>
+        :root {
+            --west-blue: #3498db;
+            --midwest-green: #27ae60;
+            --south-orange: #f39c12;
+            --south-red: #c0392b;
+            --hawaii-purple: #8e44ad;
+            --international-gray: #7f8c8d;
+
+            --page-bg: #ffffff;
+            --panel-bg: #ffffff;
+            --line: #e5e7eb;
+            --text-main: #1f2937;
+            --text-soft: #6b7280;
+
+            --tooltip-bg: #ffffff;
+            --tooltip-border: #dbe4ee;
+            --tooltip-title: #0f172a;
+            --tooltip-text: #334155;
+            --tooltip-label: #0f5ea8;
+
+            --shadow-soft: 0 6px 18px rgba(0,0,0,0.08);
+            --shadow-box: 0 12px 28px rgba(0,0,0,0.10);
+            --shadow-tooltip: 0 18px 40px rgba(0,0,0,0.18);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--page-bg);
+            color: var(--text-main);
+            margin: 16px;
+        }
+
+        .page-wrap {
+            max-width: 2600px;
+            margin: 0 auto;
+        }
+
+        .filters-panel {
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: var(--panel-bg);
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .filters-topline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            white-space: nowrap;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            margin-bottom: 10px;
+        }
+
+        .filters-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            flex: 0 0 auto;
+        }
+
+        .filter-status {
+            font-size: 0.92rem;
+            color: var(--text-soft);
+            flex: 0 0 auto;
+        }
+
+        .filter-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 2px;
+            scrollbar-width: thin;
+        }
+
+        .filter-btn,
+        .clear-btn {
+            flex: 0 0 auto;
+            border-radius: 999px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+            background: #fff;
+        }
+
+        .filter-btn {
+            border: 1px solid #cfd8e3;
+            color: #1f2937;
+        }
+
+        .filter-btn:hover,
+        .clear-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+        }
+
+        .filter-btn.active {
+            background: #1f2937;
+            color: #fff;
+            border-color: #1f2937;
+        }
+
+        .clear-btn {
+            border: 1px solid #cfd8e3;
+            color: #374151;
+        }
+
+        .filter-icon { font-size: 0.95rem; line-height: 1; }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 330px minmax(920px, 1fr) 330px;
+            gap: 14px;
+            align-items: start;
+            overflow: visible;
+        }
+
+        .left-column,
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-self: start;
+            overflow: visible;
+        }
+
+        .box {
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            overflow: visible;
+            background: #fff;
+            box-shadow: var(--shadow-box);
+            position: relative;
+        }
+
+        .box:hover,
+        .box:focus-within { z-index: 5000; }
+
+        .box-header {
+            padding: 15px 18px;
+            font-weight: 700;
+            text-align: center;
+            font-size: 1.1rem;
+            letter-spacing: 0.2px;
+            border-radius: 18px 18px 0 0;
+        }
+
+        .box-content {
+            padding: 15px 18px 18px 18px;
+            font-size: 0.98rem;
+            line-height: 1.45;
+            background: #fff;
+            border-radius: 0 0 18px 18px;
+            overflow: visible;
+        }
+
+        .west { border-top: 5px solid var(--west-blue); }
+        .west .box-header { background: linear-gradient(to bottom, #eef8ff, #e3f3ff); color: #2573a7; }
+
+        .midwest { border-top: 5px solid var(--midwest-green); }
+        .midwest .box-header { background: linear-gradient(to bottom, #eefaf1, #e3f5e7); color: #1e8449; }
+
+        .south-upper { border-top: 5px solid var(--south-orange); }
+        .south-upper .box-header { background: linear-gradient(to bottom, #fff8ee, #fff0da); color: #d16b00; }
+
+        .south-lower { border-top: 5px solid var(--south-red); }
+        .south-lower .box-header { background: linear-gradient(to bottom, #fff3f2, #fde7e4); color: #922b21; }
+
+        .hawaii { border-top: 5px solid var(--hawaii-purple); }
+        .hawaii .box-header { background: linear-gradient(to bottom, #faf3ff, #f3e8ff); color: #6a1b9a; }
+
+        .international { border-top: 5px solid var(--international-gray); }
+        .international .box-header { background: linear-gradient(to bottom, #f7f7f7, #eeeeee); color: #555; }
+
+        .map-center {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            box-shadow: var(--shadow-box);
+            padding: 10px;
+            align-self: start;
+            min-height: 100%;
+        }
+
+        .map-wrap {
+            position: relative;
+            width: 100%;
+        }
+
+        .map-center img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 14px;
+        }
+
+        
+        .map-hotspots {
+            position: absolute;
+            inset: 0;
+            overflow: visible;
+            pointer-events: none;
+        }
+
+.map-hotspot {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+    cursor: pointer;
+    text-decoration: none;
+    z-index: 40;
+    border-radius: 4px;
+    border: 2px solid rgba(15, 23, 42, 0.18);
+    background: rgba(255,255,255,0.98);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.16);
+    outline: none;
+    padding: 0;
+}
+
+.map-hotspot::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: 999px;
+    background: #0f5ea8;
+}
+
+.map-hotspot:hover,
+.map-hotspot:focus-visible,
+.map-hotspot:focus {
+    z-index: 100000;
+    border-color: rgba(214, 51, 132, 0.35);
+    background: #fff7fb;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.22);
+}
+
+.map-hotspot:hover::before,
+.map-hotspot:focus-visible::before {
+    background: #d63384;
+}
+
+.map-hotspot .destination-tooltip {
+    top: calc(100% + 10px);
+    left: 50%;
+    right: auto;
+    width: min(460px, calc(100vw - 48px));
+    --map-tooltip-x: -50%;
+    --map-tooltip-y: 6px;
+    transform: translate(var(--map-tooltip-x), var(--map-tooltip-y));
+}
+
+.map-hotspot .destination-tooltip::before {
+    left: calc(50% - 6px);
+    right: auto;
+}
+
+.map-hotspot .destination-tooltip.tooltip-left {
+    left: auto;
+    right: 0;
+    --map-tooltip-x: 0;
+}
+
+.map-hotspot .destination-tooltip.tooltip-left::before {
+    left: auto;
+    right: 16px;
+}
+
+.map-hotspot .destination-tooltip.tooltip-right {
+    left: 0;
+    right: auto;
+    --map-tooltip-x: 0;
+}
+
+.map-hotspot .destination-tooltip.tooltip-right::before {
+    left: 16px;
+    right: auto;
+}
+
+.map-hotspot .destination-tooltip.tooltip-up {
+    top: auto;
+    bottom: calc(100% + 10px);
+    --map-tooltip-y: -6px;
+}
+
+.map-hotspot .destination-tooltip.tooltip-up::before {
+    top: auto;
+    bottom: -7px;
+    transform: rotate(225deg);
+    left: calc(50% - 6px);
+    right: auto;
+}
+
+.map-hotspot .destination-tooltip.tooltip-left.tooltip-up::before {
+    left: auto;
+    right: 16px;
+}
+
+.map-hotspot .destination-tooltip.tooltip-right.tooltip-up::before {
+    left: 16px;
+    right: auto;
+}
+
+.map-hotspot:hover .destination-tooltip,
+.map-hotspot:focus-visible .destination-tooltip,
+.map-hotspot:focus .destination-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(var(--map-tooltip-x), 0);
+}
+
+
+.map-label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(var(--label-shift-x, 12px), var(--label-shift-y, 0px));
+    font-size: 0.9rem;
+    line-height: 1.15;
+    font-weight: 600;
+    color: #111827;
+    white-space: nowrap;
+    text-align: left;
+    text-decoration: none;
+    text-shadow:
+        -1px -1px 0 rgba(255,255,255,0.98),
+         1px -1px 0 rgba(255,255,255,0.98),
+        -1px  1px 0 rgba(255,255,255,0.98),
+         1px  1px 0 rgba(255,255,255,0.98),
+         0 0 8px rgba(255,255,255,0.95);
+    pointer-events: none;
+}
+
+.map-label.anchor-right {
+    text-align: right;
+}
+
+.map-hotspot:hover .map-label,
+.map-hotspot:focus-visible .map-label,
+.map-hotspot:focus .map-label {
+    color: #0f5ea8;
+}
+
+@media (max-width: 1200px) {
+    .map-label {
+        font-size: 0.82rem;
+    }
+}
+
+        .destination-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .destination-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f2f5;
+            overflow: visible;
+        }
+
+        .destination-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+        .destination-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            overflow: visible;
+        }
+
+        .destination-name-wrap {
+            position: relative;
+            display: inline-block;
+            flex: 1 1 auto;
+            min-width: 0;
+            overflow: visible;
+            outline: none;
+        }
+
+        .destination-name {
+            font-weight: 600;
+            cursor: default;
+            text-decoration: none;
+            color: #1f2937;
+            transition: color 0.15s ease, letter-spacing 0.15s ease;
+        }
+
+        .destination-name-wrap:hover .destination-name,
+        .destination-name-wrap:focus-within .destination-name {
+            color: #0f5ea8;
+            letter-spacing: 0.2px;
+        }
+
+        .destination-tags {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 3px;
+            justify-content: flex-end;
+            align-items: center;
+            flex: 0 0 auto;
+            white-space: nowrap;
+        }
+
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 999px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            font-size: 0.8rem;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .destination-tooltip {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            width: min(460px, calc(100vw - 48px));
+            background: var(--tooltip-bg);
+            color: var(--tooltip-text);
+            border: 1px solid var(--tooltip-border);
+            border-radius: 16px;
+            padding: 16px 18px;
+            box-shadow: var(--shadow-tooltip);
+            z-index: 99999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(6px);
+            transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+            pointer-events: none;
+            text-align: left;
+        }
+
+        .destination-tooltip::before {
+            content: "";
+            position: absolute;
+            top: -7px;
+            left: 22px;
+            width: 12px;
+            height: 12px;
+            background: #ffffff;
+            border-left: 1px solid var(--tooltip-border);
+            border-top: 1px solid var(--tooltip-border);
+            transform: rotate(45deg);
+        }
+
+        .right-column .destination-tooltip { left: auto; right: 0; }
+        .right-column .destination-tooltip::before { left: auto; right: 22px; }
+
+        .destination-tooltip.tooltip-up {
+            top: auto;
+            bottom: calc(100% + 10px);
+            transform: translateY(-6px);
+        }
+
+        .destination-tooltip.tooltip-up::before {
+            top: auto;
+            bottom: -7px;
+            transform: rotate(225deg);
+        }
+
+        .destination-name-wrap:hover .destination-tooltip,
+        .destination-name-wrap:focus-within .destination-tooltip,
+        .destination-name-wrap:focus .destination-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .tooltip-title {
+            font-weight: 700;
+            font-size: 1.08rem;
+            margin-bottom: 12px;
+            color: var(--tooltip-title);
+            text-align: left;
+        }
+
+        .tooltip-list,
+        .tooltip-item {
+            text-align: left;
+        }
+
+        .tooltip-list { list-style: none; margin: 0; padding: 0; }
+
+        .tooltip-item {
+            margin-bottom: 10px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            color: var(--tooltip-text);
+        }
+
+        .tooltip-item:last-child { margin-bottom: 0; }
+        .tooltip-label { font-weight: 700; color: var(--tooltip-label); }
+
+        .empty-state {
+            padding: 24px;
+            text-align: center;
+            color: var(--text-soft);
+            font-style: italic;
+            border: 1px dashed #cfd6df;
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: var(--shadow-soft);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.75); opacity: 0.55; }
+            70% { transform: scale(1.6); opacity: 0; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        @media (max-width: 1700px) {
+            .dashboard-container {
+                grid-template-columns: 320px minmax(760px, 1fr) 320px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-container { grid-template-columns: 1fr; }
+            .map-center { order: 2; }
+            .left-column { order: 1; }
+            .right-column { order: 3; }
+
+            .destination-tooltip,
+            .right-column .destination-tooltip {
+                left: 0;
+                right: auto;
+                width: min(400px, calc(100vw - 48px));
+            }
+
+            .destination-tooltip::before,
+            .right-column .destination-tooltip::before {
+                left: 22px;
+                right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrap">
+        <div class="filters-panel">
+            <div class="filters-topline">
+                <div class="filters-title">Filter Destinations by Travel Style</div>
+                <div class="filter-status" id="filterStatus">Showing all 24 destinations.</div>
+            </div>
+            <div class="filter-toolbar" id="filterButtons"></div>
+        </div>
+
+        <div class="dashboard-container">
+            <div class="left-column" id="leftColumn"></div>
+
+            <div class="map-center">
+                <div class="map-wrap">
+                    <img src="usa_main.jpg" alt="United States Destination Map">
+                    <div class="map-hotspots" id="mapHotspots"></div>
+                </div>
+            </div>
+
+            <div class="right-column" id="rightColumn"></div>
+        </div>
+    </div>
+
+    <script id="destinations-data" type="application/json">
+[
+  {
+    "name": "Orlando",
+    "display": "Orlando, FL",
+    "region": "south-lower",
+    "tags": [
+      "big-city",
+      "theme-parks",
+      "family",
+      "must-see"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Orlando.aspx",
+    "mapX": 74.81,
+    "mapY": 78.38,
+    "mapOffsetX": -0.5,
+    "mapOffsetY": 3,
+    "sizzle": {
+      "general": "Big fun, sunshine, and unforgettable experiences.",
+      "big-city": "A vibrant city with energy around every corner.",
+      "family": "Family-friendly fun for every age.",
+      "must-see": "Spere Vegas ",
+      "theme-parks": "World-famous rides, thrills, and nonstop excitement."
+    },
+    "mapLabelDx": -15,
+    "mapLabelDy": 10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Las Vegas",
+    "display": "Las Vegas, NV",
+    "region": "west",
+    "tags": [
+      "big-city",
+      "romance",
+      "must-see",
+      "culture",
+      "theme-parks",
+      "nature"
+      ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Las%20Vegas.aspx",
+    "mapX": 18.14,
+    "mapY": 48.67,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Bright lights, bold energy, and unforgettable nights.",
+      "big-city": "A fast-paced city packed with excitement.",
+      "romance":  "Champagne helicopter rides, gondola cruises, and vibrant nightlife for couples.", 
+      "must-see": "Step into the future of live entertainment at the Sphere, where a massive 16K wraparound LED screen and 4D sensory effects like wind, scent, and haptic seating transport you into another dimension.",
+      "culture": "World-class shows, dining, and entertainment such as the Bellagio Fountains, Cirque du Soleil, and celebrity chef restaurants.",
+      "theme-parks": "Circus Cirus Has the largest indoor theme park in the world. Adventuredome features 25 rides and attractions, including the Canyon Blaster roller coaster, the El Loco roller coaster, and the Inverter roller coaster.",
+      "nature": "Surrounded by stunning desert landscapes and natural wonders like Red Rock Canyon and the Valley of Fire and a short bus ride to the Grand Canyon. "
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Myrtle Beach",
+    "display": "Myrtle Beach, SC",
+    "region": "south-lower",
+    "tags": [
+      "beach",
+      "family",
+      "romance"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Myrtle%20Beach.aspx",
+    "mapX": 77.38,
+    "mapY": 59.68,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Easygoing coastal fun with something for everyone.",
+      "beach": "Wide beaches and classic oceanfront charm.",
+      "family": "A favorite for relaxed family vacations.",
+      "romance": "Seaside sunsets and laid-back couple time."
+    },
+    "mapLabelDx": 20,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Cabo",
+    "display": "Cabo, MX",
+    "region": "international",
+    "tags": [
+      "beach",
+      "romance",
+      "must-see",
+      "nature"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Cabo.aspx",
+    "mapX": 16.77,
+    "mapY": 79.05,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Sun, sea, and a picture-perfect escape.",
+      "beach": "Beautiful beaches and sparkling blue water.",
+      "romance": "A dreamy getaway made for two.",
+      "must-see": "A bucket-list beach destination.",
+      "nature": "Dramatic coastline and natural beauty all around."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Carlsbad",
+    "display": "Carlsbad, CA",
+    "region": "west",
+    "tags": [
+      "beach",
+      "family",
+      "nature"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Carlsbad.aspx",
+    "mapX": 13.35,
+    "mapY": 59.07,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Coastal California comfort with a relaxed vibe.",
+      "beach": "Sunny shores and easy beach days.",
+      "family": "Great for families looking for fun and comfort.",
+      "nature": "Scenic beauty and fresh ocean air."
+    },
+    "mapLabelDx": -100,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "right"
+  },
+  {
+    "name": "Charleston",
+    "display": "Charleston, SC",
+    "region": "south-lower",
+    "tags": [
+      "history",
+      "culture",
+      "romance",
+      "must-see"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Charleston.aspx",
+    "mapX": 75.94,
+    "mapY": 63.46,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Southern charm, beauty, and timeless appeal.",
+      "history": "Rich history around every corner.",
+      "culture": "Elegant character, local flavor, and classic charm.",
+      "romance": "Perfect for a sweet and memorable getaway.",
+      "must-see": "One of the South’s most beloved destinations."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Chicago",
+    "display": "Chicago, IL",
+    "region": "midwest",
+    "tags": [
+      "big-city",
+      "culture",
+      "must-see"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Chicago.aspx",
+    "mapX": 61.43,
+    "mapY": 33.56,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Big-city energy with unforgettable style.",
+      "big-city": "A world-class city full of excitement and character.",
+      "culture": "Architecture, food, and arts in every direction.",
+      "must-see": "An iconic American city worth the trip."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Daytona Beach",
+    "display": "Daytona Beach, FL",
+    "region": "south-lower",
+    "tags": [
+      "beach",
+      "family",
+      "must-see"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Daytona%20Beach.aspx",
+    "mapX": 75.26,
+    "mapY": 76.8,
+    "mapOffsetX": 0,
+    "mapOffsetY": 1,
+    "sizzle": {
+      "general": "Classic beach fun with a lively spirit.",
+      "beach": "Famous sands and easy oceanfront fun.",
+      "family": "Great for a fun-filled family trip.",
+      "must-see": "A legendary Florida beach destination."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -8,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Gatlinburg",
+    "display": "Gatlinburg, TN",
+    "region": "south-upper",
+    "tags": [
+      "nature",
+      "mountains-ski",
+      "family",
+      "romance"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Gatlinburg.aspx",
+    "mapX": 69.2,
+    "mapY": 54.57,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Mountain charm and cozy getaway vibes.",
+      "nature": "Surrounded by scenic natural beauty.",
+      "mountains-ski": "A mountain escape with beautiful views.",
+      "family": "A fun destination for all ages.",
+      "romance": "Cozy, peaceful, and perfect for couples."
+    },
+    "mapLabelDx": -40,
+    "mapLabelDy": 14,
+    "mapLabelAnchor": "right"
+  },
+  {
+    "name": "Hilton Head",
+    "display": "Hilton Head, SC",
+    "region": "south-lower",
+    "tags": [
+      "beach",
+      "nature",
+      "romance"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Hilton%20Head.aspx",
+    "mapX": 74.74,
+    "mapY": 65.96,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Coastal relaxation with polished charm.",
+      "beach": "Beautiful beaches made for unwinding.",
+      "nature": "Peaceful scenery and natural coastal beauty.",
+      "romance": "Quiet, elegant, and ideal for couples."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -5,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Kauai",
+    "display": "Kauai, HI",
+    "region": "hawaii",
+    "tags": [
+      "nature",
+      "beach",
+      "romance",
+      "must-see"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Kauai.aspx",
+    "mapX": 2.05,
+    "mapY": 83.86,
+    "mapOffsetX": 0.65,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Breathtaking island beauty and pure relaxation.",
+      "nature": "Lush landscapes and stunning natural scenery.",
+      "beach": "Beautiful beaches with postcard-perfect views.",
+      "romance": "A peaceful island escape for two.",
+      "must-see": "One of Hawaii’s most unforgettable islands."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -15,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Lake Tahoe",
+    "display": "Lake Tahoe, CA",
+    "region": "west",
+    "tags": [
+      "mountains-ski",
+      "nature",
+      "romance",
+      "family",
+      "must-see"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Lake%20Tahoe.aspx",
+    "mapX": 12.01,
+    "mapY": 36.91,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Stunning alpine beauty in every season.",
+      "mountains-ski": "Majestic mountain scenery and outdoor adventure.",
+      "nature": "Crystal-clear beauty and fresh mountain air.",
+      "romance": "A gorgeous setting for a couples escape.",
+      "family": "Great for year-round family fun.",
+      "must-see": "One of the West’s most scenic destinations."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "right"
+  },
+  {
+    "name": "Maui",
+    "display": "Maui, HI",
+    "region": "hawaii",
+    "tags": [
+      "beach",
+      "nature",
+      "romance",
+      "must-see"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Maui.aspx",
+    "mapX": 8.08,
+    "mapY": 89.52,
+    "mapOffsetX": 0.65,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Island beauty, relaxation, and unforgettable views.",
+      "beach": "Gorgeous beaches and warm ocean breezes.",
+      "nature": "Incredible natural beauty at every turn.",
+      "romance": "A classic choice for a romantic island getaway.",
+      "must-see": "One of Hawaii’s most loved destinations."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "New York",
+    "display": "New York, NY",
+    "region": "midwest",
+    "tags": [
+      "big-city",
+      "culture",
+      "must-see",
+      "romance"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/New%20York.aspx",
+    "mapX": 82.75,
+    "mapY": 31.55,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Iconic, exciting, and always unforgettable.",
+      "big-city": "The ultimate big-city experience.",
+      "culture": "World-famous arts, dining, and energy.",
+      "must-see": "A destination everyone should see at least once.",
+      "romance": "Magical moments in one of the world’s great cities."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Palm Springs",
+    "display": "Palm Springs, CA",
+    "region": "west",
+    "tags": [
+      "romance",
+      "nature",
+      "must-see"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Palm%20Springs.aspx",
+    "mapX": 15.02,
+    "mapY": 57.25,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Desert beauty with effortless style.",
+      "romance": "Chic, sunny, and perfect for couples.",
+      "nature": "Desert scenery with striking natural charm.",
+      "must-see": "A classic getaway with iconic appeal."
+    },
+    "mapLabelDx": -62,
+    "mapLabelDy": -30,
+    "mapLabelAnchor": "right"
+  },
+  {
+    "name": "Park City",
+    "display": "Park City, UT",
+    "region": "west",
+    "tags": [
+      "mountains-ski",
+      "nature",
+      "romance",
+      "family"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Park%20City.aspx",
+    "mapX": 25.46,
+    "mapY": 35.63,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Mountain luxury with year-round appeal.",
+      "mountains-ski": "A scenic mountain retreat full of charm.",
+      "nature": "Fresh air, beautiful views, and outdoor beauty.",
+      "romance": "Cozy and upscale for a memorable escape.",
+      "family": "Great for family adventures in every season."
+    },
+    "mapLabelDx": 13,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Scottsdale",
+    "display": "Scottsdale, AZ",
+    "region": "west",
+    "tags": [
+      "nature",
+      "romance",
+      "must-see"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Scottsdale.aspx",
+    "mapX": 22.42,
+    "mapY": 61.02,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Desert luxury and sunny relaxation.",
+      "nature": "Beautiful desert scenery and open skies.",
+      "romance": "Stylish, relaxing, and ideal for couples.",
+      "must-see": "A favorite Southwest escape."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Sedona",
+    "display": "Sedona, AZ",
+    "region": "west",
+    "tags": [
+      "nature",
+      "romance",
+      "must-see"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Sedona.aspx",
+    "mapX": 23.03,
+    "mapY": 56.21,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Striking red rocks and peaceful beauty.",
+      "nature": "Incredible scenery that feels truly special.",
+      "romance": "Quiet beauty and a perfect couples retreat.",
+      "must-see": "One of the Southwest’s most unforgettable places."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "St. Maarten",
+    "display": "St. Maarten",
+    "region": "international",
+    "tags": [
+      "beach",
+      "romance",
+      "nature",
+      "must-see"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/St.%20Maarten.aspx",
+    "mapX": 82.96,
+    "mapY": 96.83,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Island beauty with a laid-back tropical feel.",
+      "beach": "Gorgeous beaches and warm island breezes.",
+      "romance": "A beautiful escape for couples.",
+      "nature": "Tropical scenery and stunning coastal views.",
+      "must-see": "A Caribbean destination worth experiencing."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Virginia Beach",
+    "display": "Virginia Beach, VA",
+    "region": "south-upper",
+    "tags": [
+      "beach",
+      "family",
+      "nature"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Virginia%20Beach.aspx",
+    "mapX": 80.77,
+    "mapY": 46.77,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Relaxed coastal fun with room to unwind.",
+      "beach": "Long sandy beaches and easy oceanfront charm.",
+      "family": "A great beach trip for the whole family.",
+      "nature": "Coastal beauty and fresh sea air."
+    },
+    "mapLabelDx": 13,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "right"
+  },
+  {
+    "name": "Waikiki",
+    "display": "Waikiki, HI",
+    "region": "hawaii",
+    "tags": [
+      "beach",
+      "big-city",
+      "must-see",
+      "family",
+      "romance"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Waikiki.aspx",
+    "mapX": 4.79,
+    "mapY": 86.05,
+    "mapOffsetX": 0.65,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Iconic Hawaii energy by the sea.",
+      "beach": "Famous beaches and beautiful ocean views.",
+      "big-city": "A lively destination with city energy and island style.",
+      "must-see": "One of Hawaii’s most recognized destinations.",
+      "family": "Fun, convenient, and easy for families to enjoy.",
+      "romance": "Sunset walks and tropical magic for two."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Waikoloa",
+    "display": "Waikoloa, HI",
+    "region": "hawaii",
+    "tags": [
+      "beach",
+      "nature",
+      "romance",
+      "family"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Waikoloa.aspx",
+    "mapX": 9.92,
+    "mapY": 94.28,
+    "mapOffsetX": 0.65,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Sun-soaked island comfort and relaxation.",
+      "beach": "Beautiful coastline and warm island days.",
+      "nature": "Scenic beauty and a peaceful island setting.",
+      "romance": "Relaxing and intimate with tropical charm.",
+      "family": "A comfortable spot for a family island getaway."
+    },
+    "mapLabelDx": 12,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Washington, D.C.",
+    "display": "Washington, D.C.",
+    "region": "midwest",
+    "tags": [
+      "history",
+      "culture",
+      "big-city",
+      "must-see"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Washington%20DC.aspx",
+    "mapX": 78.27,
+    "mapY": 40.13,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Iconic landmarks and unforgettable national treasures.",
+      "history": "America’s story comes to life here.",
+      "culture": "Museums, monuments, and rich cultural experiences.",
+      "big-city": "A capital city with importance and energy.",
+      "must-see": "One of the nation’s essential destinations."
+    },
+    "mapLabelDx": 15,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "left"
+  },
+  {
+    "name": "Williamsburg",
+    "display": "Williamsburg, VA",
+    "region": "south-upper",
+    "tags": [
+      "history",
+      "family",
+      "culture",
+      "theme-parks"
+    ],
+    "link": "https://hgvc.sharepoint.com/sites/teamsites/AskConrad/Destinations/SitePages/Williamsburg.aspx",
+    "mapX": 79.43,
+    "mapY": 45.74,
+    "mapOffsetX": 0,
+    "mapOffsetY": 0,
+    "sizzle": {
+      "general": "Timeless charm and a step into the past.",
+      "history": "A destination rich with early American history.",
+      "family": "Educational and enjoyable for the whole family.",
+      "culture": "Colonial character and classic American charm."
+    },
+    "mapLabelDx": -130,
+    "mapLabelDy": -10,
+    "mapLabelAnchor": "right"
+  }
+]
+    </script>
+
+    <script>
+        const categories = [
+            { id: "history", label: "History", icon: "🏛️" },
+            { id: "romance", label: "Romance", icon: "❤️" },
+            { id: "must-see", label: "Must-See", icon: "⭐" },
+            { id: "nature", label: "Nature", icon: "🌿" },
+            { id: "culture", label: "Culture", icon: "🎭" },
+            { id: "family", label: "Family", icon: "👨‍👩‍👧" },
+            { id: "beach", label: "Beach", icon: "🏖️" },
+            { id: "big-city", label: "Big City", icon: "🌆" },
+            { id: "theme-parks", label: "Theme Parks", icon: "🎢" },
+            { id: "mountains-ski", label: "Mountains / Ski", icon: "⛰️" }
+        ];
+
+        const sizzleOrder = ["general","history","romance","must-see","nature","culture","family","beach","big-city","theme-parks","mountains-ski"];
+
+        const regionDefinitions = [
+            { id: "west", title: "West Properties", className: "west", column: "left" },
+            { id: "hawaii", title: "Hawaii Properties", className: "hawaii", column: "left" },
+            { id: "international", title: "International Properties", className: "international", column: "left" },
+            { id: "midwest", title: "Midwest & Northeast", className: "midwest", column: "right" },
+            { id: "south-upper", title: "South - Upper Region", className: "south-upper", column: "right" },
+            { id: "south-lower", title: "South - Carolina & Below", className: "south-lower", column: "right" }
+        ];
+
+        const destinations = JSON.parse(document.getElementById("destinations-data").textContent);
+        const categoryMap = Object.fromEntries(categories.map(cat => [cat.id, cat]));
+        const activeFilters = new Set();
+
+        const filterButtonsEl = document.getElementById("filterButtons");
+        const filterStatusEl = document.getElementById("filterStatus");
+        const leftColumnEl = document.getElementById("leftColumn");
+        const rightColumnEl = document.getElementById("rightColumn");
+        const mapHotspotsEl = document.getElementById("mapHotspots");
+
+        function escapeHtml(str = "") {
+            return str
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#39;");
+        }
+
+        function slugify(str = "") {
+            return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+        }
+
+        function getSizzleLabel(key) {
+            if (key === "general") return "General";
+            return categoryMap[key] ? categoryMap[key].label : key;
+        }
+
+        function buildFilterButtons() {
+            filterButtonsEl.innerHTML = "";
+
+            categories.forEach(category => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "filter-btn";
+                btn.dataset.tag = category.id;
+                btn.innerHTML = `
+                    <span class="filter-icon">${category.icon}</span>
+                    <span>${category.label}</span>
+                `;
+
+                btn.addEventListener("click", () => {
+                    if (activeFilters.has(category.id)) {
+                        activeFilters.delete(category.id);
+                    } else {
+                        activeFilters.add(category.id);
+                    }
+                    updateActiveButtonStates();
+                    renderPage();
+                });
+
+                filterButtonsEl.appendChild(btn);
+            });
+
+            const clearBtn = document.createElement("button");
+            clearBtn.type = "button";
+            clearBtn.className = "clear-btn";
+            clearBtn.textContent = "Clear Filters";
+            clearBtn.addEventListener("click", () => {
+                activeFilters.clear();
+                updateActiveButtonStates();
+                renderPage();
+            });
+
+            filterButtonsEl.appendChild(clearBtn);
+            updateActiveButtonStates();
+        }
+
+        function updateActiveButtonStates() {
+            document.querySelectorAll(".filter-btn").forEach(btn => {
+                const tag = btn.dataset.tag;
+                btn.classList.toggle("active", activeFilters.has(tag));
+            });
+        }
+
+        function getFilteredDestinations() {
+            if (activeFilters.size === 0) return destinations;
+            const selectedTags = Array.from(activeFilters);
+            return destinations.filter(destination => selectedTags.every(tag => destination.tags.includes(tag)));
+        }
+
+        function buildTooltipHtml(destination) {
+            const items = [];
+            sizzleOrder.forEach(key => {
+                if (destination.sizzle && destination.sizzle[key]) {
+                    items.push(`
+                        <li class="tooltip-item">
+                            <span class="tooltip-label">${escapeHtml(getSizzleLabel(key))}:</span>
+                            ${escapeHtml(destination.sizzle[key])}
+                        </li>
+                    `);
+                }
+            });
+            if (!items.length) items.push(`<li class="tooltip-item">No details added yet.</li>`);
+            return `
+                <div class="destination-tooltip">
+                    <div class="tooltip-title">${escapeHtml(destination.display)}</div>
+                    <ul class="tooltip-list">${items.join("")}</ul>
+                </div>
+            `;
+        }
+
+
+function normalizeLinkUrl(url) {
+    if (!url) return "";
+    const trimmed = String(url).trim();
+    if (!trimmed) return "";
+    if (/^https?:\/\//i.test(trimmed) || /^\/\//.test(trimmed)) return trimmed;
+    return `https://${trimmed.replace(/^\/+/, "")}`;
+}
+
+function buildDestinationNameHtml(destination) {
+    const label = escapeHtml(destination.display);
+    const linkUrl = normalizeLinkUrl(destination.link);
+
+    if (linkUrl) {
+        return `
+            <a
+                class="destination-name"
+                href="${escapeHtml(linkUrl)}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >${label}</a>
+        `;
+    }
+
+    return `<span class="destination-name">${label}</span>`;
+}
+
+function buildDestinationItem(destination) {
+    const tagsHtml = destination.tags.map(tag => {
+        const category = categoryMap[tag];
+        return `<span class="tag-pill" title="${escapeHtml(category.label)}">${category.icon}</span>`;
+    }).join("");
+
+    const itemId = `dest-${slugify(destination.name)}`;
+
+    return `
+        <li class="destination-item" id="${itemId}">
+            <div class="destination-line">
+                <div class="destination-name-wrap" tabindex="0">
+                    ${buildDestinationNameHtml(destination)}
+                    ${buildTooltipHtml(destination)}
+                </div>
+                <div class="destination-tags">${tagsHtml}</div>
+            </div>
+        </li>
+    `;
+}
+
+function buildRegionBox(region, regionDestinations) {
+            return `
+                <div class="box ${region.className}">
+                    <div class="box-header">${region.title}</div>
+                    <div class="box-content">
+                        <ul class="destination-list">
+                            ${regionDestinations.map(buildDestinationItem).join("")}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRegions(filteredDestinations) {
+            leftColumnEl.innerHTML = "";
+            rightColumnEl.innerHTML = "";
+
+            regionDefinitions.forEach(region => {
+                const regionDestinations = filteredDestinations.filter(d => d.region === region.id);
+                if (!regionDestinations.length) return;
+                const boxHtml = buildRegionBox(region, regionDestinations);
+                if (region.column === "left") {
+                    leftColumnEl.insertAdjacentHTML("beforeend", boxHtml);
+                } else {
+                    rightColumnEl.insertAdjacentHTML("beforeend", boxHtml);
+                }
+            });
+
+            if (!leftColumnEl.innerHTML.trim()) {
+                leftColumnEl.innerHTML = `<div class="empty-state">No destinations on this side match the current filters.</div>`;
+            }
+            if (!rightColumnEl.innerHTML.trim()) {
+                rightColumnEl.innerHTML = `<div class="empty-state">No destinations on this side match the current filters.</div>`;
+            }
+        }
+
+        
+function getMapHotspotPosition(destination) {
+    const baseX = typeof destination.mapX === "number" ? destination.mapX : null;
+    const baseY = typeof destination.mapY === "number" ? destination.mapY : null;
+
+    if (baseX === null || baseY === null) {
+        return null;
+    }
+
+    const offsetX = typeof destination.mapOffsetX === "number" ? destination.mapOffsetX : 0;
+    const offsetY = typeof destination.mapOffsetY === "number" ? destination.mapOffsetY : 0;
+
+    return {
+        x: baseX + offsetX,
+        y: baseY + offsetY
+    };
+}
+
+function getMapLabelStyle(destination) {
+    const dx = typeof destination.mapLabelDx === "number" ? destination.mapLabelDx : 12;
+    const dy = typeof destination.mapLabelDy === "number" ? destination.mapLabelDy : 0;
+    return `--label-shift-x:${dx}px; --label-shift-y:${dy}px;`;
+}
+
+function getMapLabelAnchor(destination) {
+    return destination.mapLabelAnchor === "right" ? "anchor-right" : "anchor-left";
+}
+
+function buildMapLabelHtml(destination) {
+    return `
+        <span
+            class="map-label ${getMapLabelAnchor(destination)}"
+            style="${getMapLabelStyle(destination)}"
+        >${escapeHtml(destination.display)}</span>
+    `;
+}
+
+function renderMapHotspots(filteredDestinations) {
+    mapHotspotsEl.innerHTML = "";
+
+    filteredDestinations.forEach(destination => {
+        const position = getMapHotspotPosition(destination);
+        if (!position) return;
+
+        const linkUrl = normalizeLinkUrl(destination.link);
+        const hotspot = document.createElement(linkUrl ? "a" : "button");
+        hotspot.className = "map-hotspot";
+        hotspot.style.left = `${position.x}%`;
+        hotspot.style.top = `${position.y}%`;
+        hotspot.setAttribute("aria-label", destination.display);
+
+        if (linkUrl) {
+            hotspot.href = linkUrl;
+            hotspot.target = "_blank";
+            hotspot.rel = "noopener noreferrer";
+        } else {
+            hotspot.type = "button";
+            hotspot.addEventListener("click", () => {
+                const target = document.getElementById(`dest-${slugify(destination.name)}`);
+                if (target) {
+                    target.scrollIntoView({ behavior: "smooth", block: "center" });
+                    target.style.background = "#fff8c6";
+                    setTimeout(() => { target.style.background = ""; }, 1200);
+                }
+            });
+        }
+
+        hotspot.innerHTML = buildMapLabelHtml(destination) + buildTooltipHtml(destination);
+        mapHotspotsEl.appendChild(hotspot);
+    });
+}
+
+function renderStatus(filteredDestinations) {
+            const total = filteredDestinations.length;
+            if (activeFilters.size === 0) {
+                filterStatusEl.textContent = `Showing all ${total} destinations.`;
+                return;
+            }
+            const labels = Array.from(activeFilters).map(tag => categoryMap[tag].label);
+            filterStatusEl.textContent = `Showing ${total} destination${total === 1 ? "" : "s"}: ${labels.join(" + ")}`;
+        }
+
+        function bindTooltipBehavior() {
+            const wraps = document.querySelectorAll(".destination-name-wrap");
+            wraps.forEach(wrap => {
+                if (wrap.dataset.tooltipBound === "true") return;
+                const tooltip = wrap.querySelector(".destination-tooltip");
+                if (!tooltip) return;
+
+                const updateTooltipDirection = () => {
+                    tooltip.classList.remove("tooltip-up");
+                    const prevVisibility = tooltip.style.visibility;
+                    const prevOpacity = tooltip.style.opacity;
+                    const prevDisplay = tooltip.style.display;
+
+                    tooltip.style.visibility = "hidden";
+                    tooltip.style.opacity = "1";
+                    tooltip.style.display = "block";
+
+                    const wrapRect = wrap.getBoundingClientRect();
+                    const tooltipRect = tooltip.getBoundingClientRect();
+                    const spaceBelow = window.innerHeight - wrapRect.bottom;
+                    const neededBelow = tooltipRect.height + 20;
+
+                    if (spaceBelow < neededBelow) {
+                        tooltip.classList.add("tooltip-up");
+                    }
+
+                    tooltip.style.visibility = prevVisibility;
+                    tooltip.style.opacity = prevOpacity;
+                    tooltip.style.display = prevDisplay;
+                };
+
+                wrap.addEventListener("mouseenter", updateTooltipDirection);
+                wrap.addEventListener("focus", updateTooltipDirection);
+                wrap.dataset.tooltipBound = "true";
+            });
+        }
+
+        function refreshVisibleTooltipDirections() {
+            const wraps = document.querySelectorAll(".destination-name-wrap");
+            wraps.forEach(wrap => {
+                const tooltip = wrap.querySelector(".destination-tooltip");
+                if (!tooltip) return;
+
+                tooltip.classList.remove("tooltip-up");
+
+                const prevVisibility = tooltip.style.visibility;
+                const prevOpacity = tooltip.style.opacity;
+                const prevDisplay = tooltip.style.display;
+
+                tooltip.style.visibility = "hidden";
+                tooltip.style.opacity = "1";
+                tooltip.style.display = "block";
+
+                const wrapRect = wrap.getBoundingClientRect();
+                const tooltipRect = tooltip.getBoundingClientRect();
+                const spaceBelow = window.innerHeight - wrapRect.bottom;
+                const neededBelow = tooltipRect.height + 20;
+
+                if (spaceBelow < neededBelow) {
+                    tooltip.classList.add("tooltip-up");
+                }
+
+                tooltip.style.visibility = prevVisibility;
+                tooltip.style.opacity = prevOpacity;
+                tooltip.style.display = prevDisplay;
+            });
+        }
+
+
+function updateMapTooltipPosition(tooltip) {
+    if (!tooltip) return;
+
+    tooltip.classList.remove("tooltip-up", "tooltip-left", "tooltip-right");
+
+    const prevVisibility = tooltip.style.visibility;
+    const prevOpacity = tooltip.style.opacity;
+    const prevDisplay = tooltip.style.display;
+
+    tooltip.style.visibility = "hidden";
+    tooltip.style.opacity = "1";
+    tooltip.style.display = "block";
+
+    const firstRect = tooltip.getBoundingClientRect();
+
+    if (firstRect.left < 16) {
+        tooltip.classList.add("tooltip-right");
+    } else if (firstRect.right > window.innerWidth - 16) {
+        tooltip.classList.add("tooltip-left");
+    }
+
+    const secondRect = tooltip.getBoundingClientRect();
+
+    if (secondRect.bottom > window.innerHeight - 16) {
+        tooltip.classList.add("tooltip-up");
+    }
+
+    tooltip.style.visibility = prevVisibility;
+    tooltip.style.opacity = prevOpacity;
+    tooltip.style.display = prevDisplay;
+}
+
+function bindMapHotspotBehavior() {
+    const hotspots = document.querySelectorAll(".map-hotspot");
+
+    hotspots.forEach(hotspot => {
+        if (hotspot.dataset.tooltipBound === "true") {
+            return;
+        }
+
+        const tooltip = hotspot.querySelector(".destination-tooltip");
+        if (!tooltip) {
+            return;
+        }
+
+        const updateTooltipPosition = () => updateMapTooltipPosition(tooltip);
+
+        hotspot.addEventListener("mouseenter", updateTooltipPosition);
+        hotspot.addEventListener("focus", updateTooltipPosition);
+        hotspot.dataset.tooltipBound = "true";
+    });
+}
+
+function refreshMapHotspotTooltips() {
+    document.querySelectorAll(".map-hotspot .destination-tooltip").forEach(updateMapTooltipPosition);
+}
+
+function renderPage() {
+            const filteredDestinations = getFilteredDestinations();
+            renderRegions(filteredDestinations);
+            renderMapHotspots(filteredDestinations);
+            renderStatus(filteredDestinations);
+            bindTooltipBehavior();
+            refreshVisibleTooltipDirections();
+            bindMapHotspotBehavior();
+            refreshMapHotspotTooltips();
+        }
+
+        window.addEventListener("resize", () => {
+            refreshVisibleTooltipDirections();
+            refreshMapHotspotTooltips();
+        });
+
+        buildFilterButtons();
+        renderPage();
+    </script>
+</body>
+</html>
